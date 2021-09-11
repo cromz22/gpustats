@@ -7,10 +7,17 @@ from multiprocessing import Process
 import paramiko
 
 
+class Color:
+    RED       = '\033[31m'
+    GREEN     = '\033[32m'
+    YELLOW    = '\033[33m'
+    END       = '\033[0m'
+
+
 def get_gpu_stat(host, host_ncards):
     username = "your-user-name"
-    ssh_private_key = f"/homes/{username}/.ssh/id_ed25519"
-    known_hosts = f"/homes/{username}/.ssh/known_hosts"
+    ssh_private_key = f"/home/{username}/.ssh/id_ed25519"
+    known_hosts = f"/home/{username}/.ssh/known_hosts"
 
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.WarningPolicy())
@@ -28,7 +35,20 @@ def get_gpu_stat(host, host_ncards):
         strip = line.strip()
         if strip != "":
             used_gpus.append(strip)
-    print(f"{host:8s}: {len(used_gpus):2d} / {host_ncards[host]:2d} GPU cards are used")
+
+    n_used = len(used_gpus)
+    n_cards = host_ncards[host]
+
+    string = f"{host:8s}: {n_used:2d} / {n_cards:2d} GPU cards are used"
+
+    if n_used == 0:
+        string = Color.GREEN + string + Color.END
+    elif n_used == n_cards:
+        string = Color.RED + string + Color.END
+    else:
+        string = Color.YELLOW + string + Color.END
+
+    print(string)
 
     client.close()
     del client, stdin, stdout, stderr

@@ -43,7 +43,7 @@ def get_gpu_stat(host, host_ncards):
 
     if n_used == 0:
         string = Color.GREEN + string + Color.END
-    elif n_used == n_cards:
+    elif n_used >= n_cards:
         string = Color.RED + string + Color.END
     else:
         string = Color.YELLOW + string + Color.END

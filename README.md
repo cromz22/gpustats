@@ -40,9 +40,16 @@ If you do not have a key pair to connect to the machines, you can create one in 
 
 1. Change the username (and `ssh_private_key`, if necessary) at `gpustats.py` line 11
 
-1. Define the list of hostnames and the number of GPU cards of the host machine at `gpustats.py` line 38 
+1. Define the dictionary of hostnames and the number of GPU cards of the host machines at `gpustats.py` line 38 
 
 1. Execute the script
 	```
 	python3 gpustats.py
+	```
+
+	The output will be something like this:
+	```
+	host1   :  4 /  8 GPU cards are used   # in yellow
+	host2   :  0 /  4 GPU cards are used   # in green
+	host3   :  4 /  4 GPU cards are used   # in red
 	```
